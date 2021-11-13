@@ -1,76 +1,65 @@
 package org.serratec.backend.ProjetoFinal.domain;
 
-import java.util.Objects;
+import java.util.List;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
-
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 @Entity
-public class Categoria{
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name= "id_categoria")
-	private long id;
-	
-	private String nome;
+public class Categoria {
 	
 	
-	public Categoria() {
-		
-	}
-	
-
-	public Categoria(String nome) {
+	public Categoria(@NotBlank @Size(max = 200, min = 4) String nome) {
 		super();
-		
 		this.nome = nome;
 	}
+
 
 	public long getId() {
 		return id;
 	}
 
+
 	public void setId(long id) {
 		this.id = id;
 	}
 
+
 	public String getNome() {
 		return nome;
 	}
+
 
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
 
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(id);
+	public List<Produto> getProdutos() {
+		return produtos;
 	}
 
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Categoria other = (Categoria) obj;
-		return id == other.id;
+	public void setProdutos(List<Produto> produtos) {
+		this.produtos = produtos;
 	}
+
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private long id;
 	
+	@NotBlank
+	@Size(max = 200, min = 4)
+	private String nome;
+	
+	
+	@OneToMany(mappedBy = "categoria")	
+	private List<Produto> produtos;
 }
-
-
-
-
-
-
